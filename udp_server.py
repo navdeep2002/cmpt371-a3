@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import socket
 
-HOST, PORT = '0.0.0.0', 53444
+HOST, PORT = '0.0.0.0', 53333
 with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as srv:
     srv.bind((HOST, PORT))
     print(f"[UDP] Listening on {HOST}:{PORT}")
