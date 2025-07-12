@@ -13,13 +13,6 @@ N = 1000
 
 # Create UDP socket and warm ARP cache once
 with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as sock:
-    # warm cache (optional)
-    sock.sendto(b"", addr)
-    try:
-        sock.recvfrom(1024)
-    except:
-        pass
-
     # Start timing just before the first send
     t1 = time.monotonic()
     for _ in range(N):
