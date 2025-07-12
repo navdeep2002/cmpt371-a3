@@ -11,14 +11,18 @@ msg = b"hello UDP"
 addr = (srv_ip, 53344)
 N = 1000
 
-# Create UDP socket and warm ARP cache once
+# Create UDP socket
 with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as sock:
     # Start timing just before the first send
     t1 = time.monotonic()
     for _ in range(N):
         sock.sendto(msg, addr)
-        _ = sock.recvfrom(1024)
-    # Stop timing immediately after the last recv
+        try:
+            _ = sock.recvfrom(1024)
+        except ConnectionResetError:
+            # remote host sent ICMP unreachable; ignore and continue
+            continue
+    # Stop timing immediately after the last successful recv
     t2 = time.monotonic()
 
 # Compute and print total RTT in milliseconds
